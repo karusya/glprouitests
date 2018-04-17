@@ -1,9 +1,9 @@
 require('ts-node').register();
 
 module.exports.config = {
-    specs: ['spec.ts'],
+    specs: ['./specs/*spec.ts'],
     directConnect: true,
-    baseUrl: 'https://movies-finder.firebaseapp.com/',
+    baseUrl: 'http://localhost/litecart/en/',
     SELENIUM_PROMISE_MANAGER: false,
 
     framework: 'mocha',
