@@ -10,7 +10,7 @@
             "name": "Working thru node",
             "program": "${workspaceFolder}/node_modules/.bin/protractor",
             "args": [
-                "./jasminejs/protractor.conf.js",
+                "protractor.conf.js",
                 "--directConnect=true"
             ],
             "env": {
