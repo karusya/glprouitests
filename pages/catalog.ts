@@ -25,7 +25,8 @@ export class CatalogPage extends BasePage {
   private addButton = $('ul.list-inline.pull-right > li:nth-of-type(3)')
   private generalTab = $('ul.nav.nav-tabs > li:nth-of-type(1)')
   private infoTab = $('ul.nav.nav-tabs > li:nth-of-type(2)')
-  private pricesTab = $('ul.nav.nav-tabs > li:nth-of-type(3)')
+  private pricesTab = element(by.xpath("//a[@href='#tab-prices']"))
+  private stockTab = element(by.xpath("//a[@href='#tab-stock']"))
   private searchField = $('main#main input.form-control[type = search]')
   private productName = name => { return element.all(by.cssContainingText('table.data-table td', name)) }
 
@@ -40,27 +41,32 @@ export class CatalogPage extends BasePage {
 
   //prices tab locators
   //private priceField = $("input.form-control[name = 'purchase_price']")
-  private priceBox = $("input.form-control[name='prices[USD]']")
+  private priceBox = element(by.xpath("//input[@name='prices[USD]']"))
 
   //after category added
   private successAlert = $('div.alert.alert-success')
   async getSuccess(){
-    await browser.wait(EC.visibilityOf(this.successAlert), 10000, 'success alertnpm tes should appear in 10 seconds, but it doesnt')
+    await browser.wait(EC.visibilityOf(this.successAlert), 10000, 'success alert should appear in 10 seconds, but it doesnt')
     return await this.successAlert.getText()
   }
   /**
-   * 
+   * opens catalog in left menu
    */
   async openCatalog(){
       await browser.wait(EC.visibilityOf(this.catalogMenu), 10000, 'movie header should appear in 10 seconds, but it doesnt')
       await this.catalogMenu.click()
-      console.log('catalog clicked')
+      
   }
 
   /**
    * 
    */
-  async addNewProduct(){
+
+
+  /**
+   * opens add product page 
+   */
+  async addClick(){
     await browser.wait(EC.visibilityOf(this.addButton), 10000, 'add button should appear in 10 seconds, but it doesnt')
     await this.addButton.click()
     console.log('button clicked')
@@ -105,9 +111,9 @@ async inResults(name){
    * 
    */
   async enableProduct(){
-    await this.enabledButton.click() 
-    await this.saveButton.click()
-    console.log('save clicked')
+    await this.enabledButton.click()
+    //await this.saveButton.click()
+    
   }
 
   /**
@@ -116,6 +122,7 @@ async inResults(name){
   fillGeneralTab(prodObj){
     browser.wait(EC.visibilityOf(this.nameField), 10000, 'name field should appear in 10 seconds, but it doesnt')
     return this.enterGeneralInfo(prodObj.name)
+     
   }
 
   async clickSave(){
@@ -126,23 +133,49 @@ async inResults(name){
     this.infoTab.click();
   }
 
-  enterInfoTab(prodObj){
-   
+  async clickStockTab(){
+    await browser.wait(EC.visibilityOf(this.stockTab), 10000, 'price tab  should appear in 10 seconds, but it doesnt')
+    this.stockTab.click()
   }
 
-  fillInfoTab() {}
+  async saveProduct (){
+    
+    await this.saveButton.click()
+  }
 
-  clickPriceTab() {
-    this.pricesTab.click();
+  async selectStock(){
+    let drpOpt=element(by.css("option[value='3']"))
+    element(by.css("select.form-control[name = 'sold_out_status_id']")).click().then(function(){
+      browser.actions().mouseMove(drpOpt).click().perform();
+      })
+   //await element(by.cssContainingText("select.form-control[name = 'sold_out_status_id']", 'Backorder Item')).click()
+  }
+
+  
+
+  async clickPriceTab() {
+    await browser.wait(EC.visibilityOf(this.pricesTab), 10000, 'price tab  should appear in 10 seconds, but it doesnt')
+    await this.pricesTab.click()
   }
 
 
-  enterPriceInfo(price){
-    this.pricesTab.sendKeys()
+ async  enterPriceInfo(price){
+    //await browser.wait(EC.visibilityOf(this.priceBox), 10000, 'price box  should appear in 10 seconds, but it doesnt')
+    await this.priceBox.sendKeys(price)
   }
 
   fillPriceTab(prodObj){
     browser.wait(EC.visibilityOf(this.priceBox), 10000, 'price box  should appear in 10 seconds, but it doesnt')
     return this.enterPriceInfo(prodObj.price)
   }
+
+  fillStockTab(){
+    this.clickStockTab()
+    this.selectStock()
+    this.saveProduct()
+    
+  }
+
+  
+  
 }

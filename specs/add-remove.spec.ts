@@ -20,20 +20,23 @@ describe('Adding new product to admin panel', async() =>{
     
     it('product can be added to the admin panel', async ()=>{
         await catalogPage.openCatalog()
-        await catalogPage.addNewProduct()
+        await catalogPage.addClick()
         await catalogPage.fillGeneralTab(product.testProduct)
         await catalogPage.imageUpload()
         await catalogPage.enableProduct()
+        await catalogPage.clickPriceTab()
+        await catalogPage.fillPriceTab(product.testProduct)
+        await catalogPage.fillStockTab()
         expect(await catalogPage.getSuccess()).to.equal('×\nChanges saved successfully')
         
     })  
     
-    it('product appears in catalog list ', async  ()=>{
-        const PRODUCT_NAME = product.testProduct.name
+    xit('product appears in catalog list ', async  ()=>{
+        //const PRODUCT_NAME = product.testProduct.name
         await catalogPage.openCatalog()
-        await catalogPage.searchFor(PRODUCT_NAME)
+        await catalogPage.searchFor(name)
         
-        expect(catalogPage.inResults(PRODUCT_NAME)).to.be.true
+        expect(catalogPage.inResults(name)).to.be.true
        
     })
     
@@ -46,17 +49,17 @@ describe('Adding product to the cart', async()=>{
         browser.waitForAngularEnabled(false)
         await browser.get('http://localhost/litecart/en/', 2000)
      })
-    xit('product can be added to the cart', async  ()=>{
+    it('product can be added to the cart', async  ()=>{
        
         let startCount = await mainPage.countCart()
         await mainPage.openLatest()
         await mainPage.openProduct()
         await mainPage.addToCart(1)
         let addedCount = await mainPage.countCart()
-        /*browser.wait(()=>{
+        browser.wait(()=>{
             return addedCount != startCount
-        }, 1000)*/
-        //expect(await mainPage.countCart()).to.equal('1')
+        }, 1000)
+        expect(await mainPage.countCart()).to.equal('1')
         
     
     })
@@ -65,6 +68,7 @@ describe('Adding product to the cart', async()=>{
         await mainPage.openCart()
         await cartPage.removeAllProducts()
         
+        //expect(await cartPage)
     })
 })
 

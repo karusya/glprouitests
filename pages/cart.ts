@@ -11,7 +11,7 @@ import { BasePage } from './base';
  export class CartPage extends BasePage{
 
     private deleteButtons = $$('i.fa.fa-trash')
-
+    
     /**
      * delete all products
      */

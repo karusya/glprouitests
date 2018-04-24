@@ -12,6 +12,7 @@ private viewFullLink = $('div#view-full-page')
 private crossIcon = $('div.featherlight-close-icon')
 private cartCount = element(by.xpath("//span[@class='quantity']"))
 private homeButton = element(by.className("general-0"))
+private cartButton = element(by.xpath("//a[text() = 'Checkout »']"))
 
 async openLatest(){
     await browser.wait(EC.visibilityOf(this.latestTab), 10000, 'latest tab should be opened  in 10 seconds, but it doesnt')
@@ -25,12 +26,18 @@ async openProduct(){
     
 }
 
+getAllProducts(){
+    
+}
+async selectProductByName(){
+
+}
 async clickHome(){
     await this.homeButton.click()
 }
 
 async addToCart(numberElement){
-    //await this.viewFullLink.click()
+    await this.viewFullLink.click()
     await browser.wait(EC.visibilityOf(this.addButton), 10000, 'add button should be present  in 10 seconds, but it is not')
     await this.addButton.click()
     await browser.wait(EC.textToBePresentInElement(this.cartCount,  "" + numberElement + ""))
