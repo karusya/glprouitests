@@ -33,7 +33,7 @@ describe('Adding new product to admin panel', async() =>{
         await catalogPage.openCatalog()
         await catalogPage.searchFor(PRODUCT_NAME)
         
-        //expect(catalogPage.inResults(PRODUCT_NAME)).to.be.true
+        expect(catalogPage.inResults(PRODUCT_NAME)).to.be.true
        
     })
     
@@ -46,17 +46,16 @@ describe('Adding product to the cart', async()=>{
         browser.waitForAngularEnabled(false)
         await browser.get('http://localhost/litecart/en/', 2000)
      })
-    it('product can be added to the cart', async  ()=>{
+    xit('product can be added to the cart', async  ()=>{
        
         let startCount = await mainPage.countCart()
         await mainPage.openLatest()
         await mainPage.openProduct()
-        await mainPage.addToCart()
+        await mainPage.addToCart(1)
         let addedCount = await mainPage.countCart()
-        browser.wait(()=>{
+        /*browser.wait(()=>{
             return addedCount != startCount
-        }, 1000)
-        console.log('4')
+        }, 1000)*/
         //expect(await mainPage.countCart()).to.equal('1')
         
     

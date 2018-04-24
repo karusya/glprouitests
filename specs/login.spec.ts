@@ -20,7 +20,6 @@ describe('Login to Admin panel', async() =>{
         const adminPage = new AdminPage()
         await loginPage.loginAs(user.adminUser)   
         await adminPage.loaded()
-        
         expect(await browser.getCurrentUrl()).to.equal(adminPage.url)
         
     })

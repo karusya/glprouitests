@@ -10,9 +10,8 @@ private addedProduct = $$('div#box-latest-products div.col-xs-6.col-sm-4.col-md-
 private addButton = $('button[name="add_cart_product"]')
 private viewFullLink = $('div#view-full-page')
 private crossIcon = $('div.featherlight-close-icon')
-private cartCount = $('div.details span.quantity')
-private cartLink = $('')
-
+private cartCount = element(by.xpath("//span[@class='quantity']"))
+private homeButton = element(by.className("general-0"))
 
 async openLatest(){
     await browser.wait(EC.visibilityOf(this.latestTab), 10000, 'latest tab should be opened  in 10 seconds, but it doesnt')
@@ -26,12 +25,16 @@ async openProduct(){
     
 }
 
+async clickHome(){
+    await this.homeButton.click()
+}
 
-
-async addToCart(){
-    await this.viewFullLink.click()
+async addToCart(numberElement){
+    //await this.viewFullLink.click()
     await browser.wait(EC.visibilityOf(this.addButton), 10000, 'add button should be present  in 10 seconds, but it is not')
     await this.addButton.click()
+    await browser.wait(EC.textToBePresentInElement(this.cartCount,  "" + numberElement + ""))
+    //await this.clickHome()
     
 }
 
