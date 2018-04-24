@@ -18,7 +18,7 @@ export class AdminPage extends BasePage{
    }
 
    async getSuccess(){
-    await browser.wait(EC.visibilityOf(this.loginMessage), 10000, 'movie header should appear in 10 seconds, but it doesnt');
+    await browser.wait(EC.visibilityOf(this.loginMessage), 10000, 'success message  should appear in 10 seconds, but it doesnt');
     return await this.loginMessage.getText()
    }
 
